@@ -6,7 +6,7 @@
 [![PHP Version](https://img.shields.io/badge/php-%5E8.3-777bb4.svg)](https://www.php.net)
 [![Laravel](https://img.shields.io/badge/laravel-12%7C13-ff2d20.svg)](https://laravel.com)
 
-Build [Slate UI](https://github.com/electrikhq/slate) interfaces from PHP. This package lets you compose Slate components in backend code — with content, attributes, props, and themes — and render them anywhere Blade renders.
+Build [Slate UI](https://github.com/electrikhq/slate) interfaces from PHP. This package lets you compose Slate components in backend code with content, attributes, props, and themes, and render them anywhere Blade renders.
 
 ## Requirements
 
@@ -34,14 +34,14 @@ This package is a Slate-flavored adapter over [juaniquillo/laravel-backend-compo
 
 What this package adds on top:
 
-- `SlateBackendComponent` — the component class, hardcoded to the `slate::` view context
-- `SlateComponentEnum` — every Slate component as a typed case (`BUTTON`, `CARD_HEADER`, `TABLE_ROW`, …)
-- `SlateOverlayUtil` — builds dialog, alert-dialog, sheet, and drawer trees
-- `SlateAccordionUtil` / `SlateTabsUtil` — build accordion and tab trees from keyed arrays
-- `SlateUITableUtil` — builds complete Slate tables from head/body arrays
-- `SlateComponentBuilder` / `SlateLocalThemeComponentBuilder` — fluent factories, including app-local theme resolution
+- `SlateBackendComponent`: the component class, hardcoded to the `slate::` view context
+- `SlateComponentEnum`: every Slate component as a typed case (`BUTTON`, `CARD_HEADER`, `TABLE_ROW`, …)
+- `SlateOverlayUtil`: builds dialog, alert-dialog, sheet, and drawer trees
+- `SlateAccordionUtil` / `SlateTabsUtil`: build accordion and tab trees from keyed arrays
+- `SlateUITableUtil`: builds complete Slate tables from head/body arrays
+- `SlateComponentBuilder` / `SlateLocalThemeComponentBuilder`: fluent factories, including app-local theme resolution
 
-> **Tip — Laravel Boost Skill** If you use Laravel Boost, install the AI skill:
+> **Tip: Laravel Boost Skill** If you use Laravel Boost, install the AI skill:
 >
 > ```bash
 > php artisan boost:add-skill https://github.com/juaniquillo/slate-backend-components
@@ -49,7 +49,7 @@ What this package adds on top:
 
 ## Usage
 
-Component props (`variant`, `loading`, `showError`, …) are passed as attributes when scalar, or as props when rich — see the [Slate documentation](https://slate.electrik.dev/components) for each component's available props.
+Component props (`variant`, `loading`, `showError`, …) are passed as attributes when scalar, or as props when rich (see the [Slate documentation](https://slate.electrik.dev/components) for each component's available props).
 
 ### Components
 
@@ -102,7 +102,7 @@ $themed = SlateLocalThemeComponentBuilder::make(SlateComponentEnum::BUTTON)
 
 ### Props
 
-Scalar values travel as attributes, keeping the base contract intact. Anything richer — booleans, arrays, objects — travels as props:
+Scalar values travel as attributes, keeping the base contract intact. Anything richer (booleans, arrays, objects) travels as props:
 
 ```php
 $button = (new SlateBackendComponent(SlateComponentEnum::BUTTON))
@@ -143,7 +143,7 @@ Per-section themes are available via `setTableThemes()`, `setThThemes()`, `setTr
 
 ### Overlays
 
-`SlateOverlayUtil` builds a complete dialog, alert-dialog, sheet, or drawer tree — trigger, content, header (title + description), and footer — from plain values or component instances:
+`SlateOverlayUtil` builds a complete dialog, alert-dialog, sheet, or drawer tree (trigger, content, header (title + description), and footer) from plain values or component instances:
 
 ```php
 use Juaniquillo\SlateBackendComponents\SlateBackendComponent;
@@ -176,7 +176,7 @@ $confirm = SlateOverlayUtil::make(
 
 ### Accordions and tabs
 
-`SlateAccordionUtil` and `SlateTabsUtil` build item trees from keyed arrays — keys become the item values the Alpine state tracks, so triggers and panels stay wired:
+`SlateAccordionUtil` and `SlateTabsUtil` build item trees from keyed arrays. Keys become the item values the Alpine state tracks, so triggers and panels stay wired:
 
 ```php
 use Juaniquillo\SlateBackendComponents\Utils\SlateAccordionUtil;
@@ -203,13 +203,13 @@ $tabs = SlateTabsUtil::make(
 
 Individual checks:
 
-- `composer analyse` — PHPStan static analysis over `src/`.
-- `composer rector:check` — Rector dry-run over `src/` (use `composer rector` to apply fixes).
-- `composer lint:check` — Pint style check (use `composer lint` to fix).
-- `composer test:types` — enforces 100% type coverage.
-- `composer tests` — the Pest suite.
+- `composer analyse`: PHPStan static analysis over `src/`.
+- `composer rector:check`: Rector dry-run over `src/` (use `composer rector` to apply fixes).
+- `composer lint:check`: Pint style check (use `composer lint` to fix).
+- `composer test:types`: enforces 100% type coverage.
+- `composer tests`: the Pest suite.
 
-Or run the whole gate at once — the same scripts CI executes, in order:
+Or run the whole gate at once (the same scripts CI executes, in order):
 
 ```bash
 composer qa
