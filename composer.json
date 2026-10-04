@@ -45,7 +45,6 @@
         }
     },
     "scripts": {
-        "test": "vendor/bin/pest",
         "test-coverage": "vendor/bin/pest --coverage",
         "format": "vendor/bin/pint",
         "format-test": "vendor/bin/pint --test",
@@ -56,13 +55,13 @@
         "rector:check": "vendor/bin/rector process --dry-run",
         "test:larastan": "vendor/bin/phpstan analyse --memory-limit=1G",
         "test:types": "vendor/bin/pest --type-coverage --min=100",
-        "test:unit": "@php bin/pest.php",
+        "tests": "@php bin/pest.php",
         "qa": [
             "@test:larastan",
             "@rector:check",
             "@lint:check",
-            "@test:types",
-            "@test:unit"
+            "@tests",
+            "@test:types"
         ]
     },
     "config": {

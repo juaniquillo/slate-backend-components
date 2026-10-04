@@ -141,7 +141,7 @@ Individual checks:
 - `composer rector:check` — Rector dry-run over `src/` (use `composer rector` to apply fixes).
 - `composer lint:check` — Pint style check (use `composer lint` to fix).
 - `composer test:types` — enforces 100% type coverage.
-- `composer test:unit` — the Pest suite.
+- `composer tests` — the Pest suite.
 
 Or run the whole gate at once — the same scripts CI executes, in order:
 

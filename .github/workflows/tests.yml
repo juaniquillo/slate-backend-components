@@ -43,8 +43,8 @@ jobs:
       - name: Linter
         run: composer lint:check
 
+      - name: Test Suite
+        run: composer tests
+
       - name: Type Coverage
         run: composer test:types
-
-      - name: Test Suite
-        run: composer test:unit
