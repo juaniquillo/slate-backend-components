@@ -1,6 +1,6 @@
 # Slate Backend Components
 
-[![Tests](https://github.com/juaniquillo/slate-backend-components/actions/workflows/tests.yml/badge.svg)](https://github.com/juaniquillo/slate-backend-components/actions/workflows/tests.yml)
+[![CI](https://github.com/juaniquillo/slate-backend-components/actions/workflows/ci.yml/badge.svg)](https://github.com/juaniquillo/slate-backend-components/actions/workflows/ci.yml)
 [![Latest Version](https://img.shields.io/github/release/juaniquillo/slate-backend-components.svg)](https://github.com/juaniquillo/slate-backend-components/releases)
 [![License](https://img.shields.io/github/license/juaniquillo/slate-backend-components.svg)](LICENSE.md)
 [![PHP Version](https://img.shields.io/badge/php-%5E8.3-777bb4.svg)](https://www.php.net)
