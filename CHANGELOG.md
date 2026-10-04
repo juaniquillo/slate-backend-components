@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
 - Require Laravel `^12.0|^13.0` to match `electrik/slate`; Testbench `^10.0|^11.0`.
 - Test suite: component, props, table util, and enum coverage tests (37 tests).
 - QA toolchain (Flux-style): PHPStan level 7 + Larastan, Rector (php83, dead-code, code-quality), Pint, 100% type-coverage gate, and `composer qa` running all five gates in CI.
+- Pest `^4.0` (was `^3.0`) so the Laravel 13 CI leg resolves (`pest-plugin-laravel` v3 caps at Laravel 12).
 
 ## [v0.1.0] - 2026-10-04
 
