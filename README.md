@@ -133,6 +133,64 @@ $table = SlateUITableUtil::make(
 
 Per-section themes are available via `setTableThemes()`, `setThThemes()`, `setTrThemes()`, and `setTdThemes()`.
 
+### Overlays
+
+`SlateOverlayUtil` builds a complete dialog, alert-dialog, sheet, or drawer tree — trigger, content, header (title + description), and footer — from plain values or component instances:
+
+```php
+use Juaniquillo\SlateBackendComponents\SlateBackendComponent;
+use Juaniquillo\SlateBackendComponents\SlateComponentEnum;
+use Juaniquillo\SlateBackendComponents\Utils\SlateOverlayUtil;
+
+$dialog = SlateOverlayUtil::make(
+    root: SlateComponentEnum::DIALOG,
+    content: 'Edit your profile details below.',
+    trigger: (new SlateBackendComponent(SlateComponentEnum::BUTTON))->setContent('Edit profile'),
+    title: 'Edit profile',
+    description: 'Make changes to your profile here.',
+    footer: (new SlateBackendComponent(SlateComponentEnum::BUTTON))->setContent('Save changes'),
+)
+    ->setShowCloseButton(false)
+    ->getComponent();
+```
+
+For alert dialogs, pass the action/cancel buttons as a footer array:
+
+```php
+$confirm = SlateOverlayUtil::make(
+    root: SlateComponentEnum::ALERT_DIALOG,
+    content: 'This action cannot be undone.',
+    trigger: 'Delete account',
+    title: 'Are you sure?',
+    footer: [$deleteButton, $cancelButton],
+)->getComponent();
+```
+
+### Accordions and tabs
+
+`SlateAccordionUtil` and `SlateTabsUtil` build item trees from keyed arrays — keys become the item values the Alpine state tracks, so triggers and panels stay wired:
+
+```php
+use Juaniquillo\SlateBackendComponents\Utils\SlateAccordionUtil;
+use Juaniquillo\SlateBackendComponents\Utils\SlateTabsUtil;
+
+$accordion = SlateAccordionUtil::make(
+    items: [
+        'item-1' => ['title' => 'First', 'content' => 'First body'],
+        'item-2' => ['title' => 'Second', 'content' => 'Second body'],
+    ],
+    defaultValue: 'item-1',
+)->getComponent();
+
+$tabs = SlateTabsUtil::make(
+    tabs: [
+        'overview' => ['label' => 'Overview', 'content' => 'Overview body'],
+        'settings' => ['label' => 'Settings', 'content' => 'Settings body'],
+    ],
+    defaultValue: 'overview',
+)->getComponent();
+```
+
 ## Testing
 
 Individual checks:
