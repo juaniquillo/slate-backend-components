@@ -36,8 +36,16 @@ What this package adds on top:
 
 - `SlateBackendComponent` — the component class, hardcoded to the `slate::` view context
 - `SlateComponentEnum` — every Slate component as a typed case (`BUTTON`, `CARD_HEADER`, `TABLE_ROW`, …)
+- `SlateOverlayUtil` — builds dialog, alert-dialog, sheet, and drawer trees
+- `SlateAccordionUtil` / `SlateTabsUtil` — build accordion and tab trees from keyed arrays
 - `SlateUITableUtil` — builds complete Slate tables from head/body arrays
 - `SlateComponentBuilder` / `SlateLocalThemeComponentBuilder` — fluent factories, including app-local theme resolution
+
+> **Tip — Laravel Boost Skill** If you use Laravel Boost, install the AI skill:
+>
+> ```bash
+> php artisan boost:add-skill https://github.com/juaniquillo/slate-backend-components
+> ```
 
 ## Usage
 
