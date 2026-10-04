@@ -1,0 +1,335 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Juaniquillo\SlateBackendComponents\Utils;
+
+use BackedEnum;
+use Juaniquillo\BackendComponents\Contracts\BackendComponent;
+use Juaniquillo\BackendComponents\Contracts\ThemeManager;
+use Juaniquillo\BackendComponents\Themes\LocalThemeManager;
+use Juaniquillo\BackendComponents\Utils\CellBag;
+use Juaniquillo\SlateBackendComponents\SlateBackendComponent;
+use Juaniquillo\SlateBackendComponents\SlateComponentEnum;
+
+use function Juaniquillo\BackendComponents\isCellBag;
+use function Juaniquillo\BackendComponents\isComponent;
+
+/**
+ * Builds a complete Slate table component tree from head/body arrays.
+ *
+ * Per-cell data uses the same shapes as TableUtil: plain values, component
+ * instances, CellBag (which accepts any BackendComponent), or
+ * ['content' => ..., 'theme' => ..., 'attributes' => ...] arrays.
+ */
+final class SlateUITableUtil
+{
+    /**
+     * @var array<string, string|array<string|int, string>>
+     */
+    private array $tableThemes = [];
+
+    /**
+     * @var array<string, string|array<string|int, string>>
+     */
+    private array $thThemes = [];
+
+    /**
+     * @var array<string, string|array<string|int, string>>
+     */
+    private array $trThemes = [];
+
+    /**
+     * @var array<string, string|array<string|int, string>>
+     */
+    private array $tdThemes = [];
+
+    /**
+     * @var array<string, int|string|null>
+     */
+    private array $tableAttributes = [];
+
+    /**
+     * @var array<string, int|string|null>
+     */
+    private array $columnsAttributes = [];
+
+    /**
+     * @param  array<string|int, string|BackendComponent|CellBag|array{
+     *   content: string|int|BackendComponent,
+     *   theme?: array<string, string|array<string|int, string>>,
+     *   attributes?: array<string, int|string|null>
+     * }>  $head
+     * @param  array<string|int, array<string|int, string|BackendComponent|CellBag|array{
+     *   content: string|int|BackendComponent,
+     *   theme?: array<string, string|array<string|int, string>>,
+     *   attributes?: array<string, string|int|null>
+     * }>>  $body
+     */
+    public function __construct(
+        private readonly array $head,
+        private readonly array $body,
+        private readonly ThemeManager $themeManager = new LocalThemeManager,
+    ) {}
+
+    /**
+     * @param  array<string|int, string|BackendComponent|CellBag|array{
+     *   content: string|int|BackendComponent,
+     *   theme?: array<string, string|array<string|int, string>>,
+     *   attributes?: array<string, string|int|null>
+     * }>  $head
+     * @param  array<string|int, array<string|int, string|BackendComponent|CellBag|array{
+     *   content: string|int|BackendComponent,
+     *   theme?: array<string, string|array<string|int, string>>,
+     *   attributes?: array<string, string|int|null>
+     * }>>  $body
+     */
+    public static function make(array $head, array $body, ThemeManager $themeManager = new LocalThemeManager): static
+    {
+        return new self($head, $body, $themeManager);
+    }
+
+    /**
+     * @param  array<string, string|array<string|int, string>>  $themes
+     */
+    public function setTableThemes(array $themes): static
+    {
+        $this->tableThemes = $themes;
+
+        return $this;
+    }
+
+    /**
+     * @param  array<string, string|array<string|int, string>>  $themes
+     */
+    public function setThThemes(array $themes): static
+    {
+        $this->thThemes = $themes;
+
+        return $this;
+    }
+
+    /**
+     * @param  array<string, string|array<string|int, string>>  $themes
+     */
+    public function setTrThemes(array $themes): static
+    {
+        $this->trThemes = $themes;
+
+        return $this;
+    }
+
+    /**
+     * @param  array<string, string|array<string|int, string>>  $themes
+     */
+    public function setTdThemes(array $themes): static
+    {
+        $this->tdThemes = $themes;
+
+        return $this;
+    }
+
+    /**
+     * @param  array<string, mixed>  $attributes
+     */
+    public function setTableAttributes(array $attributes): static
+    {
+        $this->tableAttributes = $attributes;
+
+        return $this;
+    }
+
+    /**
+     * @param  array<string, mixed>  $attributes
+     */
+    public function setColumnsAttributes(array $attributes): static
+    {
+        $this->columnsAttributes = $attributes;
+
+        return $this;
+    }
+
+    public function getComponent(): BackendComponent
+    {
+        $contents = [];
+
+        if (count($this->head)) {
+            $contents[] = $this->head();
+        }
+
+        $contents[] = $this->body();
+
+        return $this->composeComponent(SlateComponentEnum::TABLE, $contents, $this->tableThemes, $this->tableAttributes);
+    }
+
+    private function head(): SlateBackendComponent
+    {
+        $columns = [];
+
+        foreach ($this->head as $value) {
+            $columns[] = $this->composeComponent(
+                name: SlateComponentEnum::TABLE_HEAD,
+                contents: $this->resolveContent($value),
+                theme: $this->resolveTheme($this->thThemes, $value),
+                attributes: $this->resolveAttributes($value),
+            );
+        }
+
+        $row = $this->composeComponent(
+            name: SlateComponentEnum::TABLE_ROW,
+            contents: $columns,
+        );
+
+        return $this->composeComponent(
+            name: SlateComponentEnum::TABLE_HEADER,
+            contents: $row,
+            attributes: $this->columnsAttributes,
+        );
+    }
+
+    private function body(): SlateBackendComponent
+    {
+        $rows = [];
+
+        foreach ($this->body as $row) {
+            $rows[] = $this->composeComponent(
+                SlateComponentEnum::TABLE_ROW,
+                $this->rows($row),
+                $this->trThemes,
+            );
+        }
+
+        return $this->composeComponent(SlateComponentEnum::TABLE_BODY, $rows);
+    }
+
+    /**
+     * @param  array<string|int, string|BackendComponent|CellBag|array{
+     *   content: string|int|BackendComponent,
+     *   theme?: array<string, string|array<string|int, string>>,
+     *   attributes?: array<string, string|int|null>
+     * }>  $rows
+     * @return array<int, SlateBackendComponent>
+     */
+    private function rows(array $rows): array
+    {
+        $cells = [];
+
+        foreach ($rows as $value) {
+            $cells[] = $this->composeComponent(
+                SlateComponentEnum::TABLE_CELL,
+                contents: $this->resolveContent($value),
+                theme: $this->resolveTheme($this->tdThemes, $value),
+                attributes: $this->resolveAttributes($value),
+            );
+        }
+
+        return $cells;
+    }
+
+    /**
+     * @param string|BackendComponent|CellBag|array{
+     *   content: string|int|BackendComponent,
+     *   theme?: array<string, string|array<string|int, string>>,
+     *   attributes?: array<string, int|string|null>
+     * } $content
+     */
+    private function resolveContent(array|string|CellBag|BackendComponent $content): string|int|BackendComponent
+    {
+        if (isCellBag($content)) {
+            return $content->content;
+        }
+
+        if (is_array($content)) {
+            return $content['content'];
+        }
+
+        if (isComponent($content)) {
+            return $content;
+        }
+
+        return $content;
+    }
+
+    /**
+     * @param string|BackendComponent|CellBag|array{
+     *   content: string|int|BackendComponent,
+     *   theme?: array<string, string|array<string|int, string>>,
+     *   attributes?: array<string, string|int|null>
+     * } $content
+     * @param  array<string, string|array<string|int, string>>  $theme
+     * @return array<string, string|array<string|int, string>>
+     */
+    private function resolveTheme(array $theme, array|string|CellBag|BackendComponent $content): array
+    {
+        if (isCellBag($content) && $content->theme) {
+            return $content->theme;
+        }
+
+        if (is_array($content) && isset($content['theme'])) {
+            return $content['theme'];
+        }
+
+        return $theme;
+    }
+
+    /**
+     * @param string|BackendComponent|CellBag|array{
+     *   content: string|int|BackendComponent,
+     *   theme?: array<string, string|array<string|int, string>>,
+     *   attributes?: array<string, string|int|null>
+     * } $content
+     * @return array<string, int|string|null>
+     */
+    private function resolveAttributes(array|string|CellBag|BackendComponent $content): array
+    {
+        if (isCellBag($content) && $content->attributes) {
+            return $content->attributes;
+        }
+
+        if (is_array($content) && isset($content['attributes'])) {
+            return $content['attributes'];
+        }
+
+        return [];
+    }
+
+    /**
+     * @param  int|string|BackendComponent|array<int|string, int|string|BackendComponent>  $contents
+     * @param  array<string, string|array<string|int, string>>|null  $theme
+     * @param  array<string, mixed>|null  $attributes
+     */
+    private function composeComponent(BackedEnum $name, int|array|string|BackendComponent $contents, ?array $theme = null, ?array $attributes = null): SlateBackendComponent
+    {
+        $contents = is_array($contents) ? $contents : [$contents];
+
+        $component = (new SlateBackendComponent($name, $this->themeManager))
+            ->setContents($contents);
+
+        if ($theme) {
+            $component->setThemes($theme);
+        }
+
+        if ($attributes) {
+            $this->setComponentAttributes($component, $attributes);
+        }
+
+        return $component;
+    }
+
+    /**
+     * Scalar values use the conforming attribute channel, anything richer
+     * (booleans, arrays, objects) goes through the mixed content channel.
+     *
+     * @param  array<string, mixed>  $attributes
+     */
+    private function setComponentAttributes(SlateBackendComponent $component, array $attributes): void
+    {
+        foreach ($attributes as $name => $value) {
+            if (is_string($value) || is_int($value) || $value === null) {
+                $component->setAttribute($name, $value);
+            } else {
+                $component->setProp($name, $value);
+            }
+        }
+    }
+}

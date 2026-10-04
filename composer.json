@@ -1,0 +1,77 @@
+{
+    "name": "juaniquillo/slate-backend-components",
+    "description": "Slate backend components for Laravel.",
+    "keywords": ["laravel", "slate", "backend", "components"],
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "juaniquillo",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.3",
+        "electrik/slate": "^3.0",
+        "illuminate/support": "^12.0|^13.0",
+        "juaniquillo/laravel-backend-component": "^0.9.1"
+    },
+    "require-dev": {
+        "larastan/larastan": "^3.9",
+        "laravel/pint": "^1.13",
+        "orchestra/testbench": "^10.0|^11.0",
+        "pestphp/pest": "^3.0",
+        "pestphp/pest-plugin-laravel": "^3.0",
+        "pestphp/pest-plugin-type-coverage": "^3.6",
+        "phpstan/extension-installer": "^1.4",
+        "phpstan/phpstan": "^2.2",
+        "rector/rector": "^2.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "Juaniquillo\\SlateBackendComponents\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Juaniquillo\\SlateBackendComponents\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Juaniquillo\\SlateBackendComponents\\SlateBackendComponentsServiceProvider"
+            ]
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/pest",
+        "test-coverage": "vendor/bin/pest --coverage",
+        "format": "vendor/bin/pint",
+        "format-test": "vendor/bin/pint --test",
+        "lint": "vendor/bin/pint --parallel",
+        "lint:check": "vendor/bin/pint --parallel --test",
+        "analyse": "vendor/bin/phpstan analyse --memory-limit=1G",
+        "rector": "vendor/bin/rector process",
+        "rector:check": "vendor/bin/rector process --dry-run",
+        "test:larastan": "vendor/bin/phpstan analyse --memory-limit=1G",
+        "test:types": "vendor/bin/pest --type-coverage --min=100",
+        "test:unit": "@php bin/pest.php",
+        "qa": [
+            "@test:larastan",
+            "@rector:check",
+            "@lint:check",
+            "@test:types",
+            "@test:unit"
+        ]
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "phpstan/extension-installer": true
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
