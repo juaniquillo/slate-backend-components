@@ -39,7 +39,7 @@ What this package adds on top:
 - `SlateOverlayUtil`: builds dialog, alert-dialog, sheet, and drawer trees
 - `SlateAccordionUtil` / `SlateTabsUtil`: build accordion and tab trees from keyed arrays
 - `SlateUITableUtil`: builds complete Slate tables from head/body arrays
-- `SlateComponentBuilder` / `SlateLocalThemeComponentBuilder`: fluent factories, including app-local theme resolution
+- `SlateComponentFactory` / `SlateLocalThemeComponentFactory`: fluent factories, including app-local theme resolution
 
 > **Tip: Laravel Boost Skill** If you use Laravel Boost, install the AI skill:
 >
@@ -83,20 +83,20 @@ $card = (new SlateBackendComponent(SlateComponentEnum::CARD))
     ]);
 ```
 
-### Builders
+### Factories
 
 Fluent factories are available when you prefer them over `new`:
 
 ```php
-use Juaniquillo\SlateBackendComponents\Builders\SlateComponentBuilder;
-use Juaniquillo\SlateBackendComponents\Builders\SlateLocalThemeComponentBuilder;
+use Juaniquillo\SlateBackendComponents\Factories\SlateComponentFactory;
+use Juaniquillo\SlateBackendComponents\Factories\SlateLocalThemeComponentFactory;
 use Juaniquillo\SlateBackendComponents\SlateComponentEnum;
 
-$button = SlateComponentBuilder::make(SlateComponentEnum::BUTTON)
+$button = SlateComponentFactory::make(SlateComponentEnum::BUTTON)
     ->setContent('Save changes');
 
 // Resolves themes from your app's views instead of the package defaults.
-$themed = SlateLocalThemeComponentBuilder::make(SlateComponentEnum::BUTTON)
+$themed = SlateLocalThemeComponentFactory::make(SlateComponentEnum::BUTTON)
     ->setTheme('color', 'success');
 ```
 
