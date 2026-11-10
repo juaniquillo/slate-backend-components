@@ -44,20 +44,20 @@ $card = (new SlateBackendComponent(SlateComponentEnum::CARD))
     ]);
 ```
 
-## Builders
+## Factories
 
 Fluent factories when preferred over `new`:
 
 ```php
-use Juaniquillo\SlateBackendComponents\Builders\SlateComponentBuilder;
-use Juaniquillo\SlateBackendComponents\Builders\SlateLocalThemeComponentBuilder;
+use Juaniquillo\SlateBackendComponents\Factories\SlateComponentFactory;
+use Juaniquillo\SlateBackendComponents\Factories\SlateLocalThemeComponentFactory;
 use Juaniquillo\SlateBackendComponents\SlateComponentEnum;
 
-$button = SlateComponentBuilder::make(SlateComponentEnum::BUTTON)
+$button = SlateComponentFactory::make(SlateComponentEnum::BUTTON)
     ->setContent('Save changes');
 
 // Resolves themes from the app's resources/views/_themes/tailwind/ instead of package defaults.
-$themed = SlateLocalThemeComponentBuilder::make(SlateComponentEnum::BUTTON)
+$themed = SlateLocalThemeComponentFactory::make(SlateComponentEnum::BUTTON)
     ->setTheme('color', 'success');
 ```
 
@@ -162,10 +162,10 @@ Props merge into the rendered output (winning over attributes on collision) but 
 
 ## Themes
 
-Apply Tailwind variants with `setTheme()` / `setThemes()`. Theme files live in the app's `resources/views/_themes/tailwind/` (one Blade file per group returning a variant array), resolved through the local theme builders. Slate's own styling ships with its CSS tokens — base themes only affect variants you set explicitly:
+Apply Tailwind variants with `setTheme()` / `setThemes()`. Theme files live in the app's `resources/views/_themes/tailwind/` (one Blade file per group returning a variant array), resolved through the local theme factories. Slate's own styling ships with its CSS tokens — base themes only affect variants you set explicitly:
 
 ```php
-$button = SlateComponentBuilder::make(SlateComponentEnum::BUTTON)
+$button = SlateComponentFactory::make(SlateComponentEnum::BUTTON)
     ->setTheme('color', 'success');
 ```
 
