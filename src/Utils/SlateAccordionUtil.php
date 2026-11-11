@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Juaniquillo\SlateBackendComponents\Utils;
 
-use Juaniquillo\BackendComponents\Contracts\BackendComponent;
-use Juaniquillo\BackendComponents\Contracts\ThemeManager;
 use Juaniquillo\BackendComponents\Themes\LocalThemeManager;
+use Juaniquillo\BaseBackendComponent\Contracts\BackendComponent;
+use Juaniquillo\BaseBackendComponent\Contracts\ThemeManager;
 use Juaniquillo\SlateBackendComponents\SlateBackendComponent;
 use Juaniquillo\SlateBackendComponents\SlateComponentEnum;
 

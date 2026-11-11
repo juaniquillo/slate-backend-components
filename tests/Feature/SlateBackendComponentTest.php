@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use Juaniquillo\BackendComponents\Contracts\ContentsComponent;
 use Juaniquillo\BackendComponents\Themes\DefaultThemeManager;
+use Juaniquillo\BaseBackendComponent\Contracts\ContentsComponent;
 use Juaniquillo\SlateBackendComponents\SlateBackendComponent;
 use Juaniquillo\SlateBackendComponents\SlateBackendComponentsServiceProvider;
 use Juaniquillo\SlateBackendComponents\SlateComponentEnum;
@@ -122,9 +122,11 @@ it('serializes the component to an array', function () {
 
     expect($array)
         ->toHaveKey('name', 'card')
+        ->toHaveKey('component', SlateBackendComponent::class)
         ->toHaveKey('attributes', ['id' => 'my-card'])
-        ->toHaveKey('content', ['Hello'])
-        ->toHaveKey('path', 'slate::.card')
+        ->toHaveKey('contents', ['Hello'])
+        ->toHaveKey('path', null)
+        ->toHaveKey('settings', [])
         ->toHaveKey('theme.manager', DefaultThemeManager::class)
         ->toHaveKey('theme.themes', $component->getThemes())
         ->toHaveKey('theme.path', $component->getThemeManager()->getDefaultPath())
