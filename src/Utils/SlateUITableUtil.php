@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace Juaniquillo\SlateBackendComponents\Utils;
 
 use BackedEnum;
-use Juaniquillo\BackendComponents\Contracts\BackendComponent;
-use Juaniquillo\BackendComponents\Contracts\ThemeManager;
 use Juaniquillo\BackendComponents\Themes\LocalThemeManager;
 use Juaniquillo\BackendComponents\Utils\CellBag;
+use Juaniquillo\BaseBackendComponent\Contracts\BackendComponent;
+use Juaniquillo\BaseBackendComponent\Contracts\ThemeManager;
 use Juaniquillo\SlateBackendComponents\SlateBackendComponent;
 use Juaniquillo\SlateBackendComponents\SlateComponentEnum;
 
 use function Juaniquillo\BackendComponents\isCellBag;
-use function Juaniquillo\BackendComponents\isComponent;
+use function Juaniquillo\BaseBackendComponent\isComponent;
 
 /**
  * Builds a complete Slate table component tree from head/body arrays.

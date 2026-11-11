@@ -6,8 +6,8 @@ namespace Juaniquillo\SlateBackendComponents\Factories;
 
 use BackedEnum;
 use Illuminate\Contracts\Support\Htmlable;
-use Juaniquillo\BackendComponents\Contracts\CompoundComponent;
 use Juaniquillo\BackendComponents\Contracts\StaticFactory;
+use Juaniquillo\BaseBackendComponent\Contracts\CompoundComponent;
 use Juaniquillo\SlateBackendComponents\SlateBackendComponent;
 
 class SlateComponentFactory implements StaticFactory
