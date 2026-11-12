@@ -30,7 +30,7 @@ Slate styling ships with Slate itself (`resources/css/slate.css` + Tailwind v4 t
 
 ## Built on Laravel Backend Components
 
-This package is a Slate-flavored adapter over [juaniquillo/laravel-backend-component](https://packagist.org/packages/juaniquillo/laravel-backend-component) `^0.12.0`, which provides the Laravel rendering layer: theme managers, `CellBag`, and the generic `TableUtil`. Framework-agnostic state (attributes, contents, props, themes, paths, serialization) lives in [juaniquillo/base-backend-component](https://github.com/juaniquillo/base-backend-component), pulled in transitively.
+This package is a Slate-flavored adapter over [juaniquillo/laravel-backend-component](https://packagist.org/packages/juaniquillo/laravel-backend-component) `^0.12.0`, which provides the Laravel rendering layer: theme managers, `CellBag`, and the generic `TableUtil`. Framework-agnostic state (attributes, contents, props, themes, paths, serialization) lives in [juaniquillo/base-backend-component](https://github.com/juaniquillo/base-backend-component), required directly.
 
 What this package adds on top:
 
